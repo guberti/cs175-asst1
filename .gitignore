@@ -16,3 +16,7 @@
 *.aux
 *.log
 *.out
+
+.vs
+Debug
+*.user

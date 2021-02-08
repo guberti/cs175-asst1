@@ -42,6 +42,7 @@ static int g_width = 512;              // screen width
 static int g_height = 512;             // screen height
 static bool g_leftClicked = false;     // is the left mouse button down?
 static bool g_rightClicked = false;    // is the right mouse button down?
+static float g_aspectRatio = 1.0;
 static float g_squareShift = 0.0;
 static float g_triXShift = 0.0;
 static float g_triYShift = 0.0;
@@ -118,7 +119,7 @@ static void drawSquare() {
     safe_glUniform1i(g_squareShaderState->h_uTex1, 1); // 1 means GL_TEXTURE1
     safe_glUniform1f(g_squareShaderState->h_uBlender, g_blender);
     safe_glUniform1f(g_squareShaderState->h_uSquareShift, g_squareShift);
-    safe_glUniform1f(g_squareShaderState->h_uAspectRatio, float(g_width) / float(g_height));
+    safe_glUniform1f(g_squareShaderState->h_uAspectRatio, g_aspectRatio);
 
     // bind vertex buffers
     glBindBuffer(GL_ARRAY_BUFFER, g_square->posVbo);
@@ -159,8 +160,7 @@ static void drawTriangle() {
     safe_glUniform1i(g_triangleShaderState->h_uTex2, 2);
     safe_glUniform1f(g_triangleShaderState->h_uTriXShift, g_triXShift);
     safe_glUniform1f(g_triangleShaderState->h_uTriYShift, g_triYShift);
-    safe_glUniform1f(g_triangleShaderState->h_uAspectRatio,
-                     float(g_width) / float(g_height));
+    safe_glUniform1f(g_triangleShaderState->h_uAspectRatio, g_aspectRatio);
 
     // bind vertex buffers
     glBindBuffer(GL_ARRAY_BUFFER, g_triangle->posVbo);
@@ -223,6 +223,7 @@ static void display(void) {
 static void reshape(GLFWwindow* window, const int w, const int h) {
     glfwGetFramebufferSize(g_window, &g_width, &g_height);
     glViewport(0, 0, g_width, g_height);
+    g_aspectRatio = float(g_width) / float(g_height);
 }
 
 // _____________________________________________________
