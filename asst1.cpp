@@ -56,6 +56,7 @@ struct SquareShaderState {
 
     // Handles to uniform variables
     GLint h_uSquareShift;
+    GLint h_uAspectRatio;
     GLint h_uBlender;
     GLint h_uTex0, h_uTex1;
 
@@ -98,7 +99,7 @@ static void drawSquare() {
     safe_glUniform1i(g_squareShaderState->h_uTex1, 1); // 1 means GL_TEXTURE1
     safe_glUniform1f(g_squareShaderState->h_uBlender, g_blender);
     safe_glUniform1f(g_squareShaderState->h_uSquareShift, g_squareShift);
-
+    safe_glUniform1f(g_squareShaderState->h_uAspectRatio, float(g_width) / float(g_height));
 
     // bind vertex buffers
     glBindBuffer(GL_ARRAY_BUFFER, g_square->posVbo);
@@ -296,6 +297,7 @@ static void loadSquareShader(SquareShaderState &ss) {
     
     // Retrieve handles to uniform variables
     ss.h_uSquareShift = safe_glGetUniformLocation(h, "uSquareShift");
+    ss.h_uAspectRatio = safe_glGetUniformLocation(h, "uAspectRatio");
     ss.h_uBlender = safe_glGetUniformLocation(h, "uBlender");
     ss.h_uTex0 = safe_glGetUniformLocation(h, "uTex0");
     ss.h_uTex1 = safe_glGetUniformLocation(h, "uTex1");
